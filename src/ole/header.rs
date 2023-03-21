@@ -143,7 +143,7 @@ impl<'ole> super::ole::Reader<'ole> {
         }
         total_sec_id_read += self.read_sec_ids(&buffer[relative_offset
           .. relative_offset + sec_size - 4], total_sec_id_read);
-        sec_id = usize::from_slice(&buffer[buffer.len() - 4 ..]);
+        sec_id = usize::from_slice(&buffer[relative_offset + sec_size - 4 ..]);
       }
         // save the buffer for later usage
         self.body = Some(buffer);
