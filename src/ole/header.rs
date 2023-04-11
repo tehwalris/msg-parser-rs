@@ -135,9 +135,8 @@ impl<'ole> super::ole::Reader<'ole> {
         let relative_offset = sec_id * sec_size;
 
         // check if we need to read more data
-        if buffer.len() <= relative_offset + sec_size {
-          let new_len = (sec_id + 1) * sec_size;
-          buffer.resize(new_len, 0xFFu8);
+        if buffer.len() < relative_offset + sec_size {
+          buffer.resize(relative_offset + sec_size, 0xFFu8);
           self.read(&mut buffer[relative_offset
             .. relative_offset + sec_size])?;
         }
