@@ -137,9 +137,10 @@ impl<'ole> super::ole::Reader<'ole> {
 
         // check if we need to read more data
         if buffer.len() < relative_offset + sec_size {
-          buffer.resize(relative_offset + sec_size, 0xFFu8);
-          self.read(&mut buffer[relative_offset
-            .. relative_offset + sec_size])?;
+          let old_len = buffer.len();
+          let new_len = relative_offset + sec_size;
+          buffer.resize(new_len, 0xFFu8);
+          self.read(&mut buffer[old_len..new_len])?;
           steps_since_last_resize = 0;
         }
 
